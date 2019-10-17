@@ -5,20 +5,20 @@ jobs:
         docker:
             - image: circleci/python:latest # Use the latest python docker.
         steps:
-            - checkout
-            -run:
+            - run:
                 name: Pandoc
                 command: pip install pandoc
-            -run:
+            - run:
                 name: Notebook converter
                 command: pip install nbconvert
-            -run:
+            - run:
                 name: Radon
                 command: pip install radon
             - save_cache: # Caches dependencies with a cache key
                 key: memory_hole
                 paths:
                     - ~/memory_hole
+                    
     auto-export:
         # convert ALL jupyter notebooks to scripts:
         docker:
@@ -26,9 +26,10 @@ jobs:
         steps:
             - restore_cache:
                 key: memory_hole
-            -run:
+            - run:
                 name: Notebook to scripts
                 command: jupyter nbconvert --to script *.ipynb
+                
     auto-test:
         # run tests:
         docker: 
@@ -41,7 +42,8 @@ jobs:
                 command: python test.py
             - run:
                 name: Object oriented unit_testing
-                command: python objectsTest.py            
+                command: python objectsTest.py    
+                
     auto-radon:
         # Execute automatically radon on your code
         docker:
@@ -53,16 +55,17 @@ jobs:
             - run:
                 name: Cyclomatic complexity
                 command: radon cc solution.py
-            -run:
+            - run:
                 name: Cyclomatic complexity OOP
                 command: radon cc Objects.py
             # Halstead complexity:
             - run:
                 name: Halstead complexity
                 command: radon hal solution.py
-            -run:
+            - run:
                 name: Halstead complexity OOP
                 command: radon hal Objects.py
+                
                 
 workflows:
   version: 2
