@@ -30,7 +30,7 @@ jobs:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - *.py
+                    - ~/memory_hole
 
     auto-test:
         # set working directory
