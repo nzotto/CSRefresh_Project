@@ -13,7 +13,7 @@ jobs:
                 command: pip install radon --user
             - run:
                 name: Install jupyter
-                command: pip install jupyter -- user
+                command: pip install jupyter --user
             - run:
                 name: Install notebook converter
                 command: pip install nbconvert --user
