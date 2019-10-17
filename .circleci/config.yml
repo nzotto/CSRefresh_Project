@@ -11,6 +11,7 @@ executors:
 jobs:
     setup:
         executor: director
+        
         steps:
             # Checkout source files:
             - checkout
