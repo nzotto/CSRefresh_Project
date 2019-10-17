@@ -24,44 +24,33 @@ jobs:
             - run:
                 name: Notebook to scripts
                 command: jupyter nbconvert *.ipynb --to script
-            # Caches dependencies:
-            - save_cache:
-                key: memory_hole
+            # Dependencies:
+            - persist_to_workspace:
+                root: memory_hole
                 paths:
-                    - ~/memory_hole
-                    
-#    auto-export:
-        # convert ALL jupyter notebooks to scripts:
-#        docker:
-#            - image: circleci/python:latest # Use the latest python docker.
-#        steps:
-#            - restore_cache:
-#                key: memory_hole
-#            - run:
-#                name: Notebook to scripts
-#                command: jupyter nbconvert --to script *.ipynb
-                
+                    - *.py
+
     auto-test:
         # run tests:
         docker: 
             - image: circleci/python:latest # Use the latest python docker.
         steps:
-            - restore_cache:
-                key: memory_hole
+            - attach_workspace:
+                at: /tmp/memory_hole
             - run:
                 name: Unit_testing
                 command: python test.py
             - run:
                 name: Object oriented unit_testing
                 command: python objectsTest.py    
-                
+  
     auto-radon:
         # Execute automatically radon on your code
         docker:
             - image: circleci/python:latest # Use the latest python docker.
         steps:
-            - restore_cache:
-                key: memory_hole
+            - attach_workspace:
+                at: /tmp/memory_hole
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
@@ -76,21 +65,16 @@ jobs:
             - run:
                 name: Halstead complexity OOP
                 command: radon hal Objects.py
-                
-                
+
+
 workflows:
   version: 2
   my_workflow:
     jobs:
         - setup
-#        - auto-export:
-#            requires:
-#                - setup
         - auto-test:
             requires:
                 - setup
-#                - auto-export
         - auto-radon:
             requires:
                 - setup
-#                - auto-export
