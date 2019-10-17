@@ -22,7 +22,7 @@ jobs:
             - restore_cache:
                 key: v1_dependencies
             # Chow a second time because some guy on a forum said it might help: 
-            - run: sudo chown -R circleci:circleci /usr/local/bin
+            #- run: sudo chown -R circleci:circleci /usr/local/bin
             - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
             # Instalation of the required packages:
             - run:
@@ -43,7 +43,7 @@ jobs:
             - save_cache:
                 key: v1_dependencies
                 paths:
-                    - "/usr/local/bin"
+            #        - "/usr/local/bin"
                     - "/usr/local/lib/python3.6/site-packages"
 
     auto-export:
