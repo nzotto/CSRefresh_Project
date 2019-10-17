@@ -4,7 +4,7 @@ executors:
     director:
         # set up the docker environment
         docker:
-            - image: circleci/python:latest # Use the latest python docker.
+            - image: circleci/python:3.6.4 # Use the latest python docker.
         # set working directory
         # working_directory: /.
 
