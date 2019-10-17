@@ -30,7 +30,7 @@ jobs:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - ~/*.py
+                    - *.py
 
     auto-test:
         # set working directory
