@@ -6,14 +6,17 @@ jobs:
             - image: circleci/python:latest # Use the latest python docker.
         steps:
             - run:
-                name: Pandoc
+                name: Install pandoc
                 command: pip install pandoc --user
             - run:
-                name: Notebook converter
-                command: pip install nbconvert --user
-            - run:
-                name: Radon
+                name: Install radon
                 command: pip install radon --user
+            - run:
+                name: Install jupyter
+                command: pip install jupyter -- user
+            - run:
+                name: Install notebook converter
+                command: pip install nbconvert --user
             - save_cache: # Caches dependencies with a cache key
                 key: memory_hole
                 paths:
