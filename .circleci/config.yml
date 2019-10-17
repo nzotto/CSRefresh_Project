@@ -20,7 +20,7 @@ jobs:
             - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
             # create cache for python dependencies:
             - restore_cache:
-                key: v1_dependencies
+                key: v2_dependencies
             # Chow a second time because some guy on a forum said it might help: 
             #- run: sudo chown -R circleci:circleci /usr/local/bin
             - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
@@ -41,7 +41,7 @@ jobs:
                 name: Install notebook converter
                 command: pip install nbconvert --user
             - save_cache:
-                key: v1_dependencies
+                key: v2_dependencies
                 paths:
             #        - "/usr/local/bin"
                     - "/usr/local/lib/python3.6/site-packages"
@@ -53,7 +53,7 @@ jobs:
         steps:
              # load cache:
             - restore_cache:
-                key: v1_dependencies 
+                key: v2_dependencies 
             # Create file to serve as workspace:
             - run: mkdir -p workspace
             # Export the .ipynb files to .py:
@@ -76,7 +76,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: v1_dependencies        
+                key: v2_dependencies        
             - attach_workspace:
                 at: /workspace
             - run:
@@ -93,7 +93,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: v1_dependencies 
+                key: v2_dependencies 
             - attach_workspace:
                 at: /workspace
             # Cyclomatic complexity
