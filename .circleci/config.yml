@@ -15,12 +15,14 @@ jobs:
         steps:
             # Checkout source files:
             - checkout 
-            # Grant access to dependency locations:
-            - run: sudo chown -R circleci:circleci /usr/local/bin
-            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
             # create cache for python dependencies:
             - restore_cache:
                 key: my_dependencies
+            # unstall tar and untar for chache management:
+            - run: sudo install tar untar
+            # Grant access to dependency locations:
+            - run: sudo chown -R circleci:circleci /usr/local/bin
+            - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
             # Instalation of the required packages:
             - run:
                 name: Install pandoc
