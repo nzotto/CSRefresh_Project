@@ -2,7 +2,7 @@ version: 2.1
 jobs:
     setup:
         # set working directory
-        working_directory: ~/memory_hole
+        working_directory: /memory_hole
         # set up the docker environment
         docker:
             - image: circleci/python:latest # Use the latest python docker.
@@ -28,17 +28,24 @@ jobs:
                 command: jupyter nbconvert *.ipynb --to script
             # Dependencies:
             - persist_to_workspace:
-                root: .
+                root: workspace
+                paths:
+                    - test.py
+                    - solution.py
+                    - objectsTest.py
+                    - Objects.py
 
     auto-test:
         # set working directory
-        working_directory: ~/memory_hole
+        # working_directory: ~/memory_hole
         # run tests:
-        docker: 
-            - image: circleci/python:latest # Use the latest python docker.
+        # docker: 
+            # - image: circleci/python:latest # Use the latest python docker.
+        # Define executor:
+        executor: setup
         steps:
             - attach_workspace:
-                at: ~/memory_hole
+                at: /memory_hole/workspace
             - run:
                 name: Unit_testing
                 command: python test.py
@@ -48,13 +55,15 @@ jobs:
   
     auto-radon:
         # set working directory
-        working_directory: ~/memory_hole
+        # working_directory: ~/memory_hole
         # Execute automatically radon on your code
-        docker:
-            - image: circleci/python:latest # Use the latest python docker.
+        # docker:
+            # - image: circleci/python:latest # Use the latest python docker.
+        # Define executor:
+        executor: setup
         steps:
             - attach_workspace:
-                at: ~/memory_hole
+                at: /memory_hole/workspace
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
