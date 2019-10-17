@@ -21,8 +21,6 @@ jobs:
             # create cache for python dependencies:
             - restore_cache:
                 key: my_dependencies
-            # Create file to serve as workspace:
-            - run: mkdir -p workspace
             # Instalation of the required packages:
             - run:
                 name: Install pandoc
@@ -52,7 +50,9 @@ jobs:
         - restore_cache:
             key: my_dependencies 
         steps:
-        # Export the .ipynb files to .py:
+            # Create file to serve as workspace:
+            - run: mkdir -p workspace
+            # Export the .ipynb files to .py:
             - run:
                 name: Notebook to scripts
                 command: jupyter nbconvert *.ipynb --to script
