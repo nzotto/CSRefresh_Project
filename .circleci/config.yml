@@ -5,6 +5,8 @@ jobs:
         docker:
             - image: circleci/python:latest # Use the latest python docker.
         steps:
+            # Checkout source files:
+            - checkout
             # Instalation of the required packages:
             - run:
                 name: Install pandoc
