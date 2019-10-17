@@ -17,7 +17,7 @@ jobs:
             - checkout 
             # create cache for python dependencies:
             - restore_cache:
-                key: my_dependencies
+                key: v1_dependencies
             # unstall tar and untar for chache management:
             - run: sudo install tar untar
             # Grant access to dependency locations:
@@ -40,7 +40,7 @@ jobs:
                 name: Install notebook converter
                 command: pip install nbconvert --user
             - save_cache:
-                key: my_dependencies
+                key: v1_dependencies
                 paths:
                     - "/usr/local/bin"
                     - "/usr/local/lib/python3.6/site-packages"
@@ -52,7 +52,7 @@ jobs:
         steps:
              # load cache:
             - restore_cache:
-                key: my_dependencies 
+                key: v1_dependencies 
             # Create file to serve as workspace:
             - run: mkdir -p workspace
             # Export the .ipynb files to .py:
@@ -75,7 +75,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: my_dependencies        
+                key: v1_dependencies        
             - attach_workspace:
                 at: /workspace
             - run:
@@ -92,7 +92,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: my_dependencies 
+                key: v1_dependencies 
             - attach_workspace:
                 at: /workspace
             # Cyclomatic complexity
