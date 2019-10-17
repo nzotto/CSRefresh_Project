@@ -6,7 +6,7 @@ executors:
         docker:
             - image: circleci/python:3.6.4 # Use the latest python docker.
         # set working directory
-        # working_directory: /.
+        working_directory: /tmp
 
 jobs:
     setup:
@@ -20,7 +20,8 @@ jobs:
             # create cache for python dependencies:
             - restore_cache:
                 key: my_dependencies
-      
+            # Create file to serve as workspace:
+            - run: mkdir -p workspace
             # Instalation of the required packages:
             - run:
                 name: Install pandoc
@@ -43,7 +44,7 @@ jobs:
                 command: jupyter nbconvert *.ipynb --to script
             # Dependencies:
             - persist_to_workspace:
-                root: /home/circleci/project/
+                root: workspace
                 paths:
                     - test.py
                     - solution.py
@@ -65,7 +66,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: /home/circleci/project
+                at: /tmp/workspace
             - run:
                 name: Unit_testing
                 command: python test.py
@@ -83,7 +84,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: /home/circleci/project
+                at: /tmp/workspace
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
