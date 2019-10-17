@@ -6,7 +6,7 @@ executors:
         docker:
             - image: circleci/python:3.6.4 # Use the latest python docker.
         # set working directory
-        working_directory: /tmp
+        #working_directory: /tmp
 
 jobs:
     setup:
@@ -66,7 +66,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: /tmp/workspace
+                at: /workspace
             - run:
                 name: Unit_testing
                 command: python test.py
@@ -84,7 +84,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: /tmp/workspace
+                at: /workspace
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
