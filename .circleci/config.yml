@@ -33,7 +33,7 @@ jobs:
                 command: jupyter nbconvert *.ipynb --to script
             # Dependencies:
             - persist_to_workspace:
-                root: workspace
+                root: /home/circleci/project/
                 paths:
                     - test.py
                     - solution.py
@@ -50,7 +50,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: workspace
+                at: /home/circleci/project
             - run:
                 name: Unit_testing
                 command: python test.py
@@ -68,7 +68,7 @@ jobs:
         executor: director
         steps:
             - attach_workspace:
-                at: workspace
+                at: /home/circleci/project
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
