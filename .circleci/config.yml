@@ -46,10 +46,11 @@ jobs:
     auto-export:
         # Define executor:
         executor: director
-        # load cache:
-        - restore_cache:
-            key: my_dependencies 
+        
         steps:
+             # load cache:
+            - restore_cache:
+                key: my_dependencies 
             # Create file to serve as workspace:
             - run: mkdir -p workspace
             # Export the .ipynb files to .py:
@@ -68,10 +69,11 @@ jobs:
     auto-test:
         # Define executor:
         executor: director
-        # load cache:
-        - restore_cache:
-            key: my_dependencies 
+        
         steps:
+            # load cache:
+            - restore_cache:
+                key: my_dependencies        
             - attach_workspace:
                 at: /workspace
             - run:
@@ -84,11 +86,11 @@ jobs:
     auto-radon:
         # Define executor:
         executor: director
-        # load cache:
-        - restore_cache:
-            keys:
-                - my_dependencies 
+
         steps:
+            # load cache:
+            - restore_cache:
+                key: - my_dependencies 
             - attach_workspace:
                 at: /workspace
             # Cyclomatic complexity
