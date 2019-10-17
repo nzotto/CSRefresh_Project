@@ -29,8 +29,6 @@ jobs:
             # Dependencies:
             - persist_to_workspace:
                 root: .
-                paths:
-                    - ~/memory_hole
 
     auto-test:
         # set working directory
