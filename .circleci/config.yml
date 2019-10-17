@@ -7,13 +7,13 @@ jobs:
         steps:
             - run:
                 name: Pandoc
-                command: pip install -u 0:0 pandoc
+                command: pip install pandoc --user
             - run:
                 name: Notebook converter
-                command: pip install -u 0:0 nbconvert
+                command: pip install nbconvert --user
             - run:
                 name: Radon
-                command: pip install -u 0:0 radon
+                command: pip install radon --user
             - save_cache: # Caches dependencies with a cache key
                 key: memory_hole
                 paths:
