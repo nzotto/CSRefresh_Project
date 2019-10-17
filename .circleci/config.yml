@@ -90,7 +90,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: - my_dependencies 
+                key: my_dependencies 
             - attach_workspace:
                 at: /workspace
             # Cyclomatic complexity
