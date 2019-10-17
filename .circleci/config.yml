@@ -5,6 +5,7 @@ jobs:
         docker:
             - image: circleci/python:latest # Use the latest python docker.
         steps:
+            # Instalation of the required packages:
             - run:
                 name: Install pandoc
                 command: pip install pandoc --user
@@ -17,21 +18,26 @@ jobs:
             - run:
                 name: Install notebook converter
                 command: pip install nbconvert --user
-            - save_cache: # Caches dependencies with a cache key
+            # Export the .ipynb files to .py:
+            - run:
+                name: Notebook to scripts
+                command: jupyter nbconvert --to script *.ipynb
+            # Caches dependencies:
+            - save_cache:
                 key: memory_hole
                 paths:
                     - ~/memory_hole
                     
-    auto-export:
+#    auto-export:
         # convert ALL jupyter notebooks to scripts:
-        docker:
-            - image: circleci/python:latest # Use the latest python docker.
-        steps:
-            - restore_cache:
-                key: memory_hole
-            - run:
-                name: Notebook to scripts
-                command: jupyter nbconvert --to script *.ipynb
+#        docker:
+#            - image: circleci/python:latest # Use the latest python docker.
+#        steps:
+#            - restore_cache:
+#                key: memory_hole
+#            - run:
+#                name: Notebook to scripts
+#                command: jupyter nbconvert --to script *.ipynb
                 
     auto-test:
         # run tests:
@@ -75,14 +81,14 @@ workflows:
   my_workflow:
     jobs:
         - setup
-        - auto-export:
-            requires:
-                - setup
+#        - auto-export:
+#            requires:
+#                - setup
         - auto-test:
             requires:
                 - setup
-                - auto-export
+#                - auto-export
         - auto-radon:
             requires:
                 - setup
-                - auto-export
+#                - auto-export
