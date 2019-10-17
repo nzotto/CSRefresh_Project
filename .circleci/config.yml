@@ -21,7 +21,7 @@ jobs:
             # Export the .ipynb files to .py:
             - run:
                 name: Notebook to scripts
-                command: jupyter nbconvert --to script *.ipynb
+                command: jupyter nbconvert *.ipynb --to script
             # Caches dependencies:
             - save_cache:
                 key: memory_hole
