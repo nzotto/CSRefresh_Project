@@ -49,8 +49,7 @@ jobs:
         executor: director
         # load cache:
         - restore_cache:
-            keys:
-                - my_dependencies 
+            key: my_dependencies 
         steps:
         # Export the .ipynb files to .py:
             - run:
@@ -70,8 +69,7 @@ jobs:
         executor: director
         # load cache:
         - restore_cache:
-            keys:
-                - my_dependencies 
+            key: my_dependencies 
         steps:
             - attach_workspace:
                 at: /workspace
