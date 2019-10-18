@@ -26,8 +26,6 @@ jobs:
             - run:
                 name: Install Python dependencies
                 command: |
-                    pip install pandoc --user
-                    pip install radon --user
                     pip install matplotlib --user
                     pip install jupyter --user
                     pip install nbconvert --user
@@ -91,6 +89,12 @@ jobs:
             - attach_workspace:
                 at: /home/circleci/project
             - run:
+                name: install dependencies
+                command: |
+                    pip install matplotlib --user
+                    pip install numpy --user
+                    
+            - run:
                 name: Unit_testing
                 command: python test.py
             - run:
@@ -105,8 +109,14 @@ jobs:
             # load cache:
             # - restore_cache:
                 # key: v4_dependencies 
+                
             - attach_workspace:
                 at: /home/circleci/project
+            - run:
+                name: install dependencies
+                command: |
+                    pip install radon --user
+                    
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
