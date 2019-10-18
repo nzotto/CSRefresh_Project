@@ -20,44 +20,24 @@ jobs:
             - run: sudo chown -R circleci:circleci /usr/local/lib/python3.*/site-packages
             # create cache for python dependencies:
             - restore_cache:
-                key: v3_dependencies
-            # create python virtual environment to move dependencies
-            # - run:
-                # name: Install Python deps in a venv
-                # command: |
-                    # python -m venv venv
-                    # . venv/bin/activate
+                key: v4_dependencies
             # Instalation of the required packages:
             - run:
-                name: Install pandoc
-                command: pip install pandoc --user
-            - run:
-                name: Install radon
-                command: pip install radon --user
-            - run:
-                name: Install matplotlib
-                command: pip install matplotlib --user
-            - run:
-                name: Install jupyter
-                command: pip install jupyter --user
-            - run:
-                name: Install notebook converter
-                command: pip install nbconvert --user
+                name: Install Python dependencies
+                command: |
+                    pip install pandoc --user
+                    pip install radon --user
+                    pip install matplotlib --user
+                    pip install jupyter --user
+                    pip install nbconvert --user
             - save_cache:
-                key: v3_dependencies
+                key: v4_dependencies
                 paths:
                     # - "venv"
                     - "/usr/local/bin"
                     - "/usr/local/lib/python3.6/site-packages"
-
-    auto-export:
-        # Define executor:
-        executor: director
-        
-        steps:
-             # load cache:
-            - restore_cache:
-                key: v3_dependencies 
+                    
+            # Export notebooks to script
             # Create file to serve as workspace:
             - run: mkdir -p workspace
             # Export the .ipynb files to .py:
@@ -73,6 +53,29 @@ jobs:
                     - objectsTest.py
                     - Objects.py
 
+    # auto-export:
+        # Define executor:
+        # executor: director
+        
+        # steps:
+             # load cache:
+            # - restore_cache:
+                # key: v4_dependencies 
+            # Create file to serve as workspace:
+            # - run: mkdir -p workspace
+            # Export the .ipynb files to .py:
+            # - run:
+                # name: Notebook to scripts
+                # command: jupyter nbconvert *.ipynb --to script
+            # Dependencies:
+            # - persist_to_workspace:
+                # root: workspace
+                # paths:
+                    # - test.py
+                    # - solution.py
+                    # - objectsTest.py
+                    # - Objects.py
+
     auto-test:
         # Define executor:
         executor: director
@@ -80,7 +83,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: v3_dependencies        
+                key: v4_dependencies        
             - attach_workspace:
                 at: /workspace
             - run:
@@ -97,7 +100,7 @@ jobs:
         steps:
             # load cache:
             - restore_cache:
-                key: v3_dependencies 
+                key: v4_dependencies 
             - attach_workspace:
                 at: /workspace
             # Cyclomatic complexity
@@ -121,14 +124,14 @@ workflows:
   my_workflow:
     jobs:
         - build
-        - auto-export:
-            requires:
-                - build
+        # - auto-export:
+            # requires:
+                # - build
         - auto-test:
             requires:
                 - build
-                - auto-export
+                # - auto-export
         - auto-radon:
             requires:
                 - build
-                - auto-export
+                # - auto-export
