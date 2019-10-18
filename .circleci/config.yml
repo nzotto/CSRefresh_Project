@@ -48,10 +48,10 @@ jobs:
             - persist_to_workspace:
                 root: workspace
                 paths:
-                    - test.py
-                    - solution.py
-                    - objectsTest.py
-                    - Objects.py
+                    - ../test.py
+                    - ../solution.py
+                    - ../objectsTest.py
+                    - ../Objects.py
 
     # auto-export:
         # Define executor:
