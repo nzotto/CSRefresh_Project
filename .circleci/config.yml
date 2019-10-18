@@ -39,19 +39,19 @@ jobs:
                     
             # Export notebooks to script
             # Create file to serve as workspace:
-            - run: mkdir -p workspace
+            # - run: mkdir -p workspace
             # Export the .ipynb files to .py:
             - run:
                 name: Notebook to scripts
                 command: jupyter nbconvert *.ipynb --to script
             # Dependencies:
             - persist_to_workspace:
-                root: workspace
+                root: .
                 paths:
-                    - ../test.py
-                    - ../solution.py
-                    - ../objectsTest.py
-                    - ../Objects.py
+                    - test.py
+                    - solution.py
+                    - objectsTest.py
+                    - Objects.py
 
     # auto-export:
         # Define executor:
