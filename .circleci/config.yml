@@ -52,7 +52,7 @@ jobs:
                     mv solution.py refresher_cs/solution.py
                     mv Objects.py refresher_cs/objects.py
                     mkdir refresher_cs/tests
-                    mv tests.py refresher_cs/tests/test_solution.py
+                    mv test.py refresher_cs/tests/test_solution.py
                     mv objectsTest.py refresher_cs/tests/test_objects.py
             
             # copy to workspace:
