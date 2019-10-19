@@ -102,7 +102,7 @@ jobs:
                     pip install numpy --user
                     
             - run:
-                name: create necessary directories:
+                name: create necessary directories
                 command: |
                     mkdir test-results/solution
                     mkdir test-results/oop_solution
