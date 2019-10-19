@@ -41,32 +41,47 @@ jobs:
             - run:
                 name: Notebook to scripts
                 command: jupyter nbconvert *.ipynb --to script
-            # Dependencies:
+                
+            # Packaging within the docker:
+            
+            # Create necessary folder structure:
+            - run:
+                name: Create folders and move files
+                command: |
+                    mkdir refresher_cs
+                    mv solution.py refresher_cs/solution.py
+                    mv Objects.py refresher_cs/objects.py
+                    mkdir refresher_cs/tests
+                    mv tests.py refresher_cs/tests/test_solution.py
+                    mv objectsTest.py refresher_cs/tests/test_objects.py
+            
+            # copy to workspace:
             - persist_to_workspace:
                 root: .
                 paths:
-                    - test.py
-                    - solution.py
-                    - objectsTest.py
-                    - Objects.py
+                    - refresher_cs/solution.py
+                    - refresher_cs/tests/test_solution.py
+                    - refresher_cs/objects.py
+                    - refresher_cs/tests/test_objects.py
+                    
                     
             # Packaging using circleci's artifacts:
             
             - store_artifacts:
-                path: solution.py
-                destination: solutions
+                path: refresher_cs/solution.py
+                destination: refresher_cs/solutions.py
           
             - store_artifacts:
-                path: test.py
-                destination: tests
+                path: refresher_cs/tests/test_solution.py
+                destination: refresher_cs/tests/test_solution.py
                 
             - store_artifacts:
-                path: Objects.py
-                destination: oop_solutions
+                path: refresher_cs/objects.py
+                destination: refresher_cs/oop_solutions.py
                 
             - store_artifacts:
-                path: objectsTest.py
-                destination: oop_tests
+                path: refresher_cs/tests/test_objects.py
+                destination: refresher_cs/tests/test_oop_solutions.py
 
     auto-test:
         # Define executor:
@@ -87,11 +102,11 @@ jobs:
                     
             - run:
                 name: Unit_testing
-                command: python test.py
+                command: python refresher_cs/solution.py --unittest
             - run:
                 name: Object oriented unit_testing
-                command: python objectsTest.py    
-  
+                command: python refresher_cs/oop_solutions.py --unittest
+                
     auto-radon:
         # Define executor:
         executor: director
@@ -111,18 +126,34 @@ jobs:
             # Cyclomatic complexity
             - run:
                 name: Cyclomatic complexity
-                command: radon cc solution.py
+                command: radon cc python refresher_cs/solution.py > cc_solution.txt
             - run:
                 name: Cyclomatic complexity OOP
-                command: radon cc Objects.py
+                command: radon cc refresher_cs/oop_solutions.py > cc_oop_solution.txt
             # Halstead complexity:
             - run:
                 name: Halstead complexity
-                command: radon hal solution.py
+                command: radon hal python refresher_cs/solution.py > hal_solution.txt
             - run:
                 name: Halstead complexity OOP
-                command: radon hal Objects.py
+                command: radon hal refresher_cs/oop_solutions.py > hal_oop_solution.txt
 
+            # Save the complexity into artifacts:
+            - store_artifacts:
+                path: cc_solution.txt
+                destination: radon/cc_solution.txt
+                
+            - store_artifacts:
+                path: cc_oop_solution.txt
+                destination: radon/cc_oop_solution.txt
+                
+            - store_artifacts:
+                path: hal_solution.txt
+                destination: radon/hal_solution.txt
+                
+            - store_artifacts:
+                path: hal_oop_solution.txt
+                destination: radon/hal_oop_solution.txt
 
 workflows:
   version: 2
