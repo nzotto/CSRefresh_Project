@@ -94,6 +94,7 @@ jobs:
                 
             - attach_workspace:
                 at: /home/circleci/project
+                
             - run:
                 name: install dependencies
                 command: |
@@ -101,11 +102,17 @@ jobs:
                     pip install numpy --user
                     
             - run:
+                name: create necessary directories:
+                command: |
+                    mkdir test-results/solution
+                    mkdir test-results/oop_solution
+                    
+            - run:
                 name: Unit_testing
-                command: python refresher_cs/solution.py --unittest
+                command: python refresher_cs/solution.py --unittest > test-results/solution/results.xml
             - run:
                 name: Object oriented unit_testing
-                command: python refresher_cs/objects.py --unittest
+                command: python refresher_cs/objects.py --unittest > test-results/oop_solution/results.xml
                 
             - store_test_results:
                 path: test-results
