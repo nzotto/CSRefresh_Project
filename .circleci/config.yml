@@ -53,16 +53,20 @@ jobs:
             # Packaging using circleci's artifacts:
             
             - store_artifacts:
-                path:
-                    - solution.py
-                    - Object.py
+                path: solution.py
                 destination: solutions
           
             - store_artifacts:
-                path: 
-                    - test.py
-                    - objectsTest.py
+                path: test.py
                 destination: tests
+                
+            - store_artifacts:
+                path: Objects.py
+                destination: oop_solutions
+                
+            - store_artifacts:
+                path: objectsTest.py
+                destination: oop_tests
 
     auto-test:
         # Define executor:
