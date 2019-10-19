@@ -105,7 +105,10 @@ jobs:
                 command: python refresher_cs/solution.py --unittest
             - run:
                 name: Object oriented unit_testing
-                command: python refresher_cs/oop_solutions.py --unittest
+                command: python refresher_cs/objects.py --unittest
+                
+            - store_test_results:
+                path: test-results
                 
     auto-radon:
         # Define executor:
@@ -129,14 +132,14 @@ jobs:
                 command: radon cc python refresher_cs/solution.py > cc_solution.txt
             - run:
                 name: Cyclomatic complexity OOP
-                command: radon cc refresher_cs/oop_solutions.py > cc_oop_solution.txt
+                command: radon cc refresher_cs/objects.py > cc_oop_solution.txt
             # Halstead complexity:
             - run:
                 name: Halstead complexity
                 command: radon hal python refresher_cs/solution.py > hal_solution.txt
             - run:
                 name: Halstead complexity OOP
-                command: radon hal refresher_cs/oop_solutions.py > hal_oop_solution.txt
+                command: radon hal refresher_cs/objects.py > hal_oop_solution.txt
 
             # Save the complexity into artifacts:
             - store_artifacts:
